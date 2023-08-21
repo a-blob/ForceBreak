@@ -3,6 +3,8 @@ import time
 
 focustime = 0
 breaktime = 0
+count = 0
+
 
 def break_window(breaktime):
     breakwindow = tk.Tk()
@@ -17,27 +19,38 @@ def break_window(breaktime):
     breakwindow.after(breaktime, breakwindow.destroy)
 
 
-def on_ok():
+def on_ok(focusentry, breakentry, breaktime):
     focustime = (focusentry.get())
     breaktime = (breakentry.get())
-    break_window(breaktime)
-    input_window.destroy()
-    
+    breaktime = int(breaktime)
+    breaktime = breaktime * 1000
+    focus_countdown(focustime, breaktime)
 
-input_window = tk.Tk()
 
-focus_label = tk.Label(input_window, text = "Focus time:")
+def focus_countdown(count, breaktime):
+    count = int(count)
+    if count > 0:
+        count_label.config(text=str(count))
+        inputwindow.after(1000, focus_countdown, count - 1, breaktime)
+    else:
+        break_window(breaktime)
+
+inputwindow = tk.Tk()
+
+focus_label = tk.Label(inputwindow, text = "Focus time:")
 focus_label.pack()
-focusentry = tk.Entry(input_window)
+focusentry = tk.Entry(inputwindow)
 focusentry.pack()
 
-break_label = tk.Label(input_window, text = "Break time:")
+break_label = tk.Label(inputwindow, text = "Break time:")
 break_label.pack()
-breakentry = tk.Entry(input_window)
+breakentry = tk.Entry(inputwindow)
 breakentry.pack()
 
-ok_button = tk.Button(input_window, text = "Okay", command = on_ok)
+ok_button = tk.Button(inputwindow, text = "Okay", command = lambda: on_ok(focusentry, breakentry, breaktime))
 ok_button.pack()
 
-input_window.mainloop()
+count_label = tk.Label(inputwindow, text = "")
+count_label.pack()
 
+inputwindow.mainloop()
