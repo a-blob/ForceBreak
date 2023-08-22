@@ -16,22 +16,27 @@ def break_window(breaktime):
     label = tk.Label(breakwindow, text = "It's time to take a break!", font = ("Times New Roman", 36), bg = '#FFFBE4')
     label.place(relx = 0.5, rely = 0.5, anchor = "center")
 
-    breakwindow.after(breaktime, breakwindow.destroy)
+    breakwindow.after(breaktime, lambda: on_close(breakwindow))
+
+def on_close(window):
+    window.destroy()
+    on_ok(focusentry, breakentry, breaktime)
 
 
 def on_ok(focusentry, breakentry, breaktime):
     focustime = (focusentry.get())
     breaktime = (breakentry.get())
     breaktime = int(breaktime)
-    breaktime = breaktime * 1000
+    breaktime = breaktime * 60000
     focus_countdown(focustime, breaktime)
 
 
 def focus_countdown(count, breaktime):
     count = int(count)
+    print(count)
     if count > 0:
         count_label.config(text=str(count))
-        inputwindow.after(1000, focus_countdown, count - 1, breaktime)
+        inputwindow.after(60000, focus_countdown, count - 1, breaktime)
     else:
         break_window(breaktime)
 
