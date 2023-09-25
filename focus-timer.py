@@ -62,7 +62,7 @@ def focus_countdown(count, breaktime):
 # Main window code
 inputwindow = tk.Tk()
 inputwindow.resizable(width = False, height = False)
-inputwindow.geometry("700x350")
+inputwindow.geometry("200x150")
 
 style = ttk.Style()
 style.theme_use("clam")
