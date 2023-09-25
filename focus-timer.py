@@ -1,12 +1,16 @@
+# Import
 import tkinter as tk
 from tkinter import ttk
 import time
 
+
+# Define the variables
 focustime = 0
 breaktime = 0
 count = 0
 
 
+# Define the functions
 def break_window(breaktime):
     breakwindow = tk.Tk()
     breakwindow.attributes('-fullscreen', True)
@@ -41,6 +45,8 @@ def focus_countdown(count, breaktime):
     else:
         break_window(breaktime)
 
+
+# Main window code
 inputwindow = tk.Tk()
 inputwindow.resizable(width = False, height = False)
 inputwindow.geometry("600x300")
