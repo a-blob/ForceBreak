@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import time
 
 focustime = 0
@@ -41,21 +42,27 @@ def focus_countdown(count, breaktime):
         break_window(breaktime)
 
 inputwindow = tk.Tk()
+inputwindow.resizable(width = False, height = False)
+inputwindow.geometry("600x300")
 
-focus_label = tk.Label(inputwindow, text = "Focus time:")
+style = ttk.Style()
+style.theme_use("clam")
+inputwindow.configure(background="#dcdad5")
+
+focus_label = ttk.Label(inputwindow, text = "Focus time:")
 focus_label.pack()
-focusentry = tk.Entry(inputwindow)
+focusentry = ttk.Entry(inputwindow)
 focusentry.pack()
 
-break_label = tk.Label(inputwindow, text = "Break time:")
+break_label = ttk.Label(inputwindow, text = "Break time:")
 break_label.pack()
-breakentry = tk.Entry(inputwindow)
+breakentry = ttk.Entry(inputwindow)
 breakentry.pack()
 
-ok_button = tk.Button(inputwindow, text = "Okay", command = lambda: on_ok(focusentry, breakentry, breaktime))
+ok_button = ttk.Button(inputwindow, text = "Okay", command = lambda: on_ok(focusentry, breakentry, breaktime))
 ok_button.pack()
 
-count_label = tk.Label(inputwindow, text = "")
+count_label = ttk.Label(inputwindow, text = "")
 count_label.pack()
 
 inputwindow.mainloop()
