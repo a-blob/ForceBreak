@@ -62,26 +62,26 @@ def focus_countdown(count, breaktime):
 # Main window code
 inputwindow = tk.Tk()
 inputwindow.resizable(width = False, height = False)
-inputwindow.geometry("200x150")
+inputwindow.geometry("700x350")
 
 style = ttk.Style()
 style.theme_use("clam")
 inputwindow.configure(background="#dcdad5")
 
 focus_label = ttk.Label(inputwindow, text = "Focus time:")
-focus_label.pack()
+focus_label.grid(row=0, column=0)
 focusentry = ttk.Entry(inputwindow)
-focusentry.pack()
+focusentry.grid(row=1, column=0)
 
 break_label = ttk.Label(inputwindow, text = "Break time:")
-break_label.pack()
+break_label.grid(row=2, column=0)
 breakentry = ttk.Entry(inputwindow)
-breakentry.pack()
+breakentry.grid(row=3, column=0)
 
 ok_button = ttk.Button(inputwindow, text = "Okay", command = lambda: on_ok(focusentry, breakentry, breaktime))
-ok_button.pack()
+ok_button.grid(row=4, column=0)
 
 count_label = ttk.Label(inputwindow, text = "")
-count_label.pack()
+count_label.grid(row=5, column=0)
 
 inputwindow.mainloop()
