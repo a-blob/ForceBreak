@@ -1,6 +1,7 @@
 # Import
 import tkinter as tk
 from tkinter import ttk
+from PIL import Image, ImageTk
 import time
 
 
@@ -53,7 +54,7 @@ def focus_countdown(count, breaktime):
     count = int(count)
     print(count)
     if count > 0:
-        count_label.config(text = str(count) + " minutes left")
+        count_label.config(text = str(count) + " min. left")
         inputwindow.after(60000, focus_countdown, count - 1, breaktime)
     else:
         break_window(breaktime)
@@ -61,27 +62,51 @@ def focus_countdown(count, breaktime):
 
 # Main window code
 inputwindow = tk.Tk()
+inputwindow.title("ForceBreak")
 inputwindow.resizable(width = False, height = False)
-inputwindow.geometry("700x350")
+inputwindow.geometry("650x300")
+inputwindow.wm_attributes('-alpha', 0.97)
 
 style = ttk.Style()
 style.theme_use("clam")
 inputwindow.configure(background="#dcdad5")
 
-focus_label = ttk.Label(inputwindow, text = "Focus time:")
-focus_label.grid(row=0, column=0)
-focusentry = ttk.Entry(inputwindow)
-focusentry.grid(row=1, column=0)
+# Create a Frame
+frame = ttk.Frame(inputwindow, relief="solid", borderwidth=2)
+frame.place(x=75, y=55)
 
-break_label = ttk.Label(inputwindow, text = "Break time:")
-break_label.grid(row=2, column=0)
-breakentry = ttk.Entry(inputwindow)
-breakentry.grid(row=3, column=0)
+count_frame = ttk.Frame(inputwindow, relief="solid", borderwidth=2, width=200, height=200)
+frame.pack_propagate(0)
+count_frame.place(x=450, y=125)
 
-ok_button = ttk.Button(inputwindow, text = "Okay", command = lambda: on_ok(focusentry, breakentry, breaktime))
-ok_button.grid(row=4, column=0)
+frame.grid_rowconfigure(0, minsize=20)
 
-count_label = ttk.Label(inputwindow, text = "")
-count_label.grid(row=5, column=0)
+focus_label = ttk.Label(frame, text = "Focus time:")
+focus_label.grid(row=1, column=0, padx=30, pady=0, sticky='w')
+
+focusentry = ttk.Entry(frame)
+focusentry.grid(row=2, column=0, padx=30, pady=0)
+
+frame.grid_rowconfigure(3, minsize=10)
+
+break_label = ttk.Label(frame, text = "Break time:")
+break_label.grid(row=4, column=0, padx=30, pady=0, sticky='w')
+
+breakentry = ttk.Entry(frame)
+breakentry.grid(row=5, column=0, padx=30, pady=0)
+
+frame.grid_rowconfigure(6, minsize=20)
+
+ok_button = ttk.Button(frame, text = "Start", command = lambda: on_ok(focusentry, breakentry, breaktime))
+ok_button.grid(row=7, column=0, padx=30, pady=0)
+
+frame.grid_rowconfigure(8, minsize=20)
+
+img = Image.open("./temp.png")
+photo = ImageTk.PhotoImage(img)
+tk.Label(count_frame, image=photo).grid(row=0, column=0)
+
+count_label = ttk.Label(count_frame, text = "")
+count_label.grid(row=0, column=0)
 
 inputwindow.mainloop()
