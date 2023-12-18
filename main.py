@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-import time
 
 
 class ForceBreak:
@@ -9,6 +8,10 @@ class ForceBreak:
         self.break_time = int(break_time.get())
         self.focus_window = focus_window
         self.focus_label = focus_label
+
+        self.break_count = None
+        self.focus_count = None
+
         self.focus_timer()
 
     def break_timer(self):
@@ -26,24 +29,31 @@ class ForceBreak:
                          font=("Times New Roman", 36, "bold"), bg='#FFFBE4')
         label.place(relx=0.5, rely=0.5, anchor="center")
 
-        break_count = self.break_time
-        while break_count >= 0:
-            count_label.config(text=str(break_count))
-            break_window.update()
-            time.sleep(1)
-            break_count -= 1
+        self.break_count = self.break_time
+        self._break_timer(break_window, count_label)
 
-        break_window.destroy()
-        self.focus_timer()
+    def _break_timer(self, break_window, count_label):
+        if self.break_count > 0:
+            count_label.config(text=f"{str(self.break_count)} min. left")
+            break_window.update()
+            self.break_count -= 1
+            break_window.after(1000, self._break_timer, break_window, count_label)
+        else:
+            break_window.destroy()
+            self.focus_timer()
 
     def focus_timer(self):
-        focus_count = self.focus_time
-        while focus_count >= 0:
-            self.focus_label.config(text=str(focus_count) + " min. left")
+        self.focus_count = self.focus_time
+        self._focus_timer()
+
+    def _focus_timer(self):
+        if self.focus_count > 0:
+            self.focus_label.config(text=str(self.focus_count) + " min. left")
             self.focus_window.update()
-            time.sleep(1)
-            focus_count -= 1
-        self.break_timer()
+            self.focus_count -= 1
+            self.focus_window.after(1000, self._focus_timer)
+        else:
+            self.break_timer()
 
 
 def main():
@@ -52,7 +62,6 @@ def main():
     input_window.title("ForceBreak")
     input_window.resizable(width=False, height=False)
     input_window.geometry("650x300")
-    input_window.wm_attributes('-alpha', 0.97)
 
     # Apply themes and colors
     style = ttk.Style()
@@ -92,7 +101,8 @@ def main():
     count_label.grid(row=0, column=0)
 
     # Create button
-    ok_button = ttk.Button(frame, text="Start", command=lambda: ForceBreak(focus_entry, break_entry, input_window, count_label))
+    ok_button = ttk.Button(frame, text="Start",
+                           command=lambda: ForceBreak(focus_entry, break_entry, input_window, count_label))
     ok_button.grid(row=7, column=0, padx=30, pady=0)
 
     frame.grid_rowconfigure(8, minsize=20)
