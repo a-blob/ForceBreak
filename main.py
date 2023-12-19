@@ -37,7 +37,7 @@ class ForceBreak:
             count_label.config(text=f"{str(self.break_count)} min. left")
             break_window.update()
             self.break_count -= 1
-            break_window.after(1000, self._break_timer, break_window, count_label)
+            break_window.after(60000, self._break_timer, break_window, count_label)
         else:
             break_window.destroy()
             self.focus_timer()
@@ -51,7 +51,7 @@ class ForceBreak:
             self.focus_label.config(text=str(self.focus_count) + " min. left")
             self.focus_window.update()
             self.focus_count -= 1
-            self.focus_window.after(1000, self._focus_timer)
+            self.focus_window.after(60000, self._focus_timer)
         else:
             self.break_timer()
 
