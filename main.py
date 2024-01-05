@@ -48,7 +48,7 @@ class ForceBreak:
 
     def _focus_timer(self):
         if self.focus_count > 0:
-            self.focus_label.config(text=str(self.focus_count) + " min. left")
+            self.focus_label.config(text=str(self.focus_count) + " min.")
             self.focus_window.update()
             self.focus_count -= 1
             self.focus_window.after(60000, self._focus_timer)
@@ -73,9 +73,9 @@ def main():
     frame.place(x=75, y=55)
 
     # Create counting frame
-    count_frame = ttk.Frame(input_window, relief="solid", borderwidth=2, width=200, height=200)
+    count_frame = ttk.Frame(input_window, relief="solid", borderwidth=3, width=300, height=300)
     frame.pack_propagate(False)
-    count_frame.place(x=450, y=125)
+    count_frame.place(x=310, y=0)
 
     frame.grid_rowconfigure(0, minsize=20)
 
@@ -84,6 +84,7 @@ def main():
     focus_label.grid(row=1, column=0, padx=30, pady=0, sticky='w')
 
     focus_entry = ttk.Entry(frame)
+    focus_entry.insert(0, "40")
     focus_entry.grid(row=2, column=0, padx=30, pady=0)
 
     frame.grid_rowconfigure(3, minsize=10)
@@ -92,13 +93,14 @@ def main():
     break_label.grid(row=4, column=0, padx=30, pady=0, sticky='w')
 
     break_entry = ttk.Entry(frame)
+    break_entry.insert(0, "10")
     break_entry.grid(row=5, column=0, padx=30, pady=0)
 
     frame.grid_rowconfigure(6, minsize=20)
 
     # Create counting label
-    count_label = ttk.Label(count_frame, text="")
-    count_label.grid(row=0, column=0)
+    count_label = ttk.Label(count_frame, text="", font=("Times New Roman", 25))
+    count_label.place(relx=0.5, rely=0.5, anchor="center")
 
     # Create button
     ok_button = ttk.Button(frame, text="Start",
